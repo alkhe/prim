@@ -12,6 +12,15 @@ Prim is great for creating web applications. The parser returns a plain HTML str
 
 Prim may be implemented in the future as an interface language for software beyond web applications.
 
+## Install
+
+To use as a module on your server:
+```sh
+npm install --save primjs
+```
+
+To use the client runtime, [download the latest build from git HEAD](https://github.com/edge/prim/tree/master/lib).
+
 ## Browser
 
 In your HTML, link to your Prim runtime:

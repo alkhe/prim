@@ -65,6 +65,8 @@ npm install --save primjs
 ```
 
 ```js
+var prim = require('primjs');
+
 prim.parse('div(class="article") { p { "Lorem ipsum dolor sit amet" } }');
 // "<div class="article"><p>Lorem ipsum dolor sit amet</p></div>"
 ```

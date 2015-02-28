@@ -1,0 +1,56 @@
+root
+	= _ ns:nodes _ { return ns; }
+
+branch
+	= s:symbol _ '{' _ ns:nodes _ '}' { return '<' + s + '>' + ns + '</' + s + '>'; }
+
+node
+	= s:symbol { return '<' + s + '></' + s + '>'; }
+
+nodes
+	= b:branch _ ns:nodes { return b + ns; }
+	/ n:node __ ns:nodes { return n + ns; }
+	/ branch
+	/ node
+	/ empty
+
+symbol
+	= st:symbolstart sc:symbolchar* { return st + sc.join(''); }
+
+symbolstart
+	= ':'
+	/ [A-Z]
+	/ '_'
+	/ [a-z]
+	/ [\u00C0-\u00D6]
+	/ [\u00D8-\u00F6]
+	/ [\u00F8-\u02FF]
+	/ [\u0370-\u037D]
+	/ [\u037F-\u1FFF]
+	/ [\u200C-\u200D]
+	/ [\u2070-\u218F]
+	/ [\u2C00-\u2FEF]
+	/ [\u3001-\uD7FF]
+	/ [\uF900-\uFDCF]
+	/ [\uFDF0-\uFFFD]
+
+symbolchar
+	= symbolstart
+	/ '-'
+	/ '.'
+	/ [0-9]
+	/ [\u00B7]
+	/ [\u0300-\u036F]
+	/ [\u203F-\u2040]
+
+empty
+	= ''
+
+line
+	= '\n'
+
+_
+
+	= [ \t\r\n]*
+__
+	= [ \t\r\n]+

@@ -60,7 +60,15 @@ Congratulations! You've made your first page in Prim.
 
 ## Server
 
-Coming soon.
+```sh
+npm install --save primjs
+```
+
+```js
+prim.parse('div(class="article") { p { "Lorem ipsum dolor sit amet" } }');
+// "<div class="article"><p>Lorem ipsum dolor sit amet</p></div>"
+```
+
 
 ## Test
 
@@ -68,3 +76,9 @@ Coming soon.
 npm install -g testem
 npm test
 ```
+
+## Todo
+
+- Implement metacharacter for raw strings
+- Implement end-of-markup short hand
+- Plan future features

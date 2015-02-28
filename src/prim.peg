@@ -1,23 +1,51 @@
 root
 	= _ ns:nodes _ { return ns; }
 
-branch
-	= s:symbol _ '{' _ ns:nodes _ '}' { return '<' + s + '>' + ns + '</' + s + '>'; }
+boundednode
+	= n:name _ ps:properties _ '{' _ ns:nodes _ '}' { return '<' + n + ps + '>' + ns + '</' + n + '>'; }
+	/ n:name _ '{' _ ns:nodes _ '}' { return '<' + n + '>' + ns + '</' + n + '>'; }
+	/ n:name _ ps:properties { return '<' + n + ps + '></' + n + '>'; }
 
 node
-	= s:symbol { return '<' + s + '></' + s + '>'; }
+	= n:name { return '<' + n + '></' + n + '>'; }
 
 nodes
-	= b:branch _ ns:nodes { return b + ns; }
+	= b:boundednode _ ns:nodes { return b + ns; }
 	/ n:node __ ns:nodes { return n + ns; }
-	/ branch
+	/ boundednode
 	/ node
 	/ empty
 
-symbol
-	= st:symbolstart sc:symbolchar* { return st + sc.join(''); }
+properties
+	= '(' _ as:attributes _ ')' { return ' ' + as; }
+	/ '(' _ ')' { return ''; }
 
-symbolstart
+attributes
+	= a:attribute __ as:attributes { return a + ' ' + as; }
+	/ attribute
+
+attribute
+	= n:name _ '=' _ a:attvalue { return n + '=' + a; }
+	/ name
+
+attvalue
+	= "'" v:$((!"'" char)*) "'" { return "'" + v + "'"; }
+	/ '"' v:$((!'"' char)*) '"' { return '"' + v + '"'; }
+
+string
+	= $(char*)
+
+char
+	= [\u0009]
+	/ [\u000A]
+	/ [\u000D]
+	/ [\u0020-\uD7FF]
+	/ [\uE000-\uFFFD]
+
+name
+	= $(namestart namechar*)
+
+namestart
 	= ':'
 	/ [A-Z]
 	/ '_'
@@ -34,8 +62,8 @@ symbolstart
 	/ [\uF900-\uFDCF]
 	/ [\uFDF0-\uFFFD]
 
-symbolchar
-	= symbolstart
+namechar
+	= namestart
 	/ '-'
 	/ '.'
 	/ [0-9]
@@ -51,6 +79,6 @@ line
 
 _
 
-	= [ \t\r\n]*
+	= [ \t\r\n\f]*
 __
-	= [ \t\r\n]+
+	= [ \t\r\n\f]+

@@ -43,6 +43,29 @@ describe('prim', function() {
 		it('parses empty nested tag', function() {
 			expect(prim.parse('html {}').toString()).toBe('<html></html>');
 		});
-	});
 
+		it('parses newlines between braces', function() {
+			expect(prim.parse('html {\n\n}').toString()).toBe('<html></html>');
+		});
+
+		it('parses empty attribute lists', function() {
+			expect(prim.parse('div()').toString()).toBe('<div></div>');
+		});
+
+		it('parses single attribute lists', function() {
+			expect(prim.parse('div(attr="value")').toString()).toBe('<div attr="value"></div>');
+		});
+
+		it('parses multiple attribute lists', function() {
+			expect(prim.parse('div(attr="value" value="text" href="#")').toString()).toBe('<div attr="value" value="text" href="#"></div>');
+		});
+
+		it('parses single boolean attribute lists', function() {
+			expect(prim.parse('div(attr)').toString()).toBe('<div attr></div>');
+		});
+
+		it('parses multiple mixed attribute lists', function() {
+			expect(prim.parse('div(attr="value" value="text" checked href="#" focused)').toString()).toBe('<div attr="value" value="text" checked href="#" focused></div>');
+		});
+	});
 });

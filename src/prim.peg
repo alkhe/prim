@@ -7,8 +7,8 @@ boundednode
 	/ n:name _ ps:properties _ '/' { return '<' + n + ps + ' />'; }
 	/ n:name _ '/' { return '<' + n + ' />'; }
 	/ n:name _ ps:properties { return '<' + n + ps + '></' + n + '>'; }
-	/ "'" s:$([^"'"]*) "'" { return s; }
-	/ '"' s:$([^'"']*) '"' { return s; }
+	/ "'" s:$([^']*) "'" { return s; }
+	/ '"' s:$([^"]*) '"' { return s; }
 
 node
 	= n:name { return '<' + n + '></' + n + '>'; }

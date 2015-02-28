@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script src='./lib/prim.js'></script>
+		<script>
+			$(document).ready(function() {
+				var body = $(document.body);
+
+				body.append(prim.parse($('#primbody').text()));
+			});
+		</script>
+		<script id='primbody' type='text/x-prim'>
+			div(class='container-fluid') {
+				br/
+				div(class='panel panel-default') {
+					div(class='panel-heading') { 'Prim' }
+					div(class='panel-body') { 'Natural, fat free, and extensible interface markup for the web.' }
+					div(class='panel-footer') {
+						a(href='https://github.com/edge/prim') { 'Get it now' }
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+
+	</body>
+</html>

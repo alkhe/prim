@@ -4,7 +4,11 @@ root
 boundednode
 	= n:name _ ps:properties _ '{' _ ns:nodes _ '}' { return '<' + n + ps + '>' + ns + '</' + n + '>'; }
 	/ n:name _ '{' _ ns:nodes _ '}' { return '<' + n + '>' + ns + '</' + n + '>'; }
+	/ n:name _ ps:properties _ '/' { return '<' + n + ps + ' />'; }
+	/ n:name _ '/' { return '<' + n + ' />'; }
 	/ n:name _ ps:properties { return '<' + n + ps + '></' + n + '>'; }
+	/ "'" s:$([^"'"]*) "'" { return s; }
+	/ '"' s:$([^"'"]*) '"' { return s; }
 
 node
 	= n:name { return '<' + n + '></' + n + '>'; }
@@ -72,13 +76,13 @@ namechar
 	/ [\u203F-\u2040]
 
 empty
-	= ''
+	= $('')
 
 line
-	= '\n'
+	= $('\n')
 
 _
 
-	= [ \t\r\n\f]*
+	= $([ \t\r\n\f]*)
 __
-	= [ \t\r\n\f]+
+	= $([ \t\r\n\f]+)

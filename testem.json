@@ -1,7 +1,6 @@
 {
 	"framework": "jasmine",
 	"before_tests": "gulp compile",
-	"after_tests": "rm -rf lib/*",
 	"src_files": [
 		"src/**/*.peg",
 		"spec/**/*.js"

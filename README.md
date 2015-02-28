@@ -12,7 +12,7 @@ Prim may be implemented in the future as an interface language for software beyo
 
 ## Browser
 
-In your HTML, link to your Prim library:
+In your HTML, link to your Prim runtime:
 ```html
 <script src='/js/prim.js'></script>
 ```
@@ -22,6 +22,31 @@ Now you can convert Prim to HTML:
 prim.parse('div(class="article") { p { "Lorem ipsum dolor sit amet" } }');
 // "<div class="article"><p>Lorem ipsum dolor sit amet</p></div>"
 ```
+
+You can also define a Prim template in your head:
+```html
+<script id='primbody' type='text/x-prim'>
+	div(class='container-fluid') {
+		br/
+		div(class='panel panel-default') {
+			div(class='panel-heading') { 'Prim' }
+			div(class='panel-body') { 'Natural, fat free, and extensible interface markup for the web.' }
+			div(class='panel-footer') {
+				a(href='https://github.com/edge/prim') { 'Get it now' }
+			}
+		}
+	}
+</script>
+```
+
+And grab the text to use as a template:
+```js
+body.append(prim.parse($('#primbody').text()));
+```
+
+Congratulations! You've made your first page in Prim.
+![test.html](http://i.imgur.com/pEEuYKE.png)
+
 
 ## Server
 

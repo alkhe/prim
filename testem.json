@@ -1,6 +1,6 @@
 {
 	"framework": "jasmine",
-	"before_tests": "gulp compile",
+	"before_tests": "gulp compile-dev",
 	"src_files": [
 		"src/**/*.peg",
 		"spec/**/*.js"

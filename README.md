@@ -52,3 +52,10 @@ Congratulations! You've made your first page in Prim.
 ## Server
 
 Coming soon.
+
+## Test
+
+```sh
+npm install -g testem
+npm test
+```

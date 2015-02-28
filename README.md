@@ -2,7 +2,7 @@
 
 ## Pure Recursive Interface Markup
 
-Natural, fat free, and extensible interface markup for the web.
+Natural and extensible interface markup for the web.
 
 Prim is a new templating language that implements only the most intuitive and natural concepts of interface structure, allowing for developers to efficiently create platform-agnostic user interfaces.
 
@@ -16,7 +16,7 @@ Prim may be implemented in the future as an interface language for software beyo
 
 In your HTML, link to your Prim runtime:
 ```html
-<script src='/js/prim.js'></script>
+<script src="/js/prim.js"></script>
 ```
 
 Now you can convert Prim to HTML:
@@ -48,7 +48,6 @@ body.append(prim.parse($('#primbody').text()));
 
 Congratulations! You've made your first page in Prim.
 ![test.html](http://i.imgur.com/pEEuYKE.png)
-
 
 ## Server
 

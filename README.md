@@ -67,8 +67,8 @@ npm install --save primjs
 ```js
 var prim = require('primjs');
 
-prim.parse('div(class="article") { p { "Lorem ipsum dolor sit amet" } }');
-// "<div class="article"><p>Lorem ipsum dolor sit amet</p></div>"
+prim.parse('div(class="article") { p | Lorem ipsum dolor sit amet | }');
+// '<div class="article"><p>Lorem ipsum dolor sit amet</p></div>'
 ```
 
 
@@ -80,6 +80,10 @@ npm test
 ```
 
 ## Documentation
+
+**Prim is whitespace-agnostic.**
+
+### Basic
 
 **identifier**
 creates an HTML element with `identifier` as tag name
@@ -120,17 +124,17 @@ div {
 <div><span><span><hr /></div>
 ```
 
-**identifier(attributes...)/**
-creates a self-closing HTML element with `identifier` as tag name and `attributes` as attributes
-```jade
-input(type='text' placeholder='Username')/
-```
-```html
-<input type='text' placeholder='username' />
-```
-
 **"string"**
 creates a virtual HTML element with `string` as contents
+```jade
+"Hello"
+```
+```html
+Hello
+```
+
+**identifier | content |**
+creates an HTML element with `identifier` as tag name and `content` as raw text
 ```jade
 div | Hello |
 ```
@@ -138,20 +142,30 @@ div | Hello |
 <div>Hello</div>
 ```
 
-**identifier | content |**
-creates an HTML element with `identifier` as tag name and `content` as raw text
+### Multiplex
+
+**Self-closing element with attributes**
+```jade
+input(type='text' placeholder='Username')/
+```
+```html
+<input type='text' placeholder='username' />
+```
+
+**Mixed elements and strings**
 ```jade
 div {
-	span
-	hr/
+	'Welcome back, '
+	div(id='name' class='username') | User |
 }
 ```
 ```html
-<div><span><span><hr /></div>
+<div>Welcome back, <div id='name' class='username'>User</div></div>
 ```
-
 
 ## Todo
 
-- Implement end-of-markup short hand
-- Plan future features
+- Implement end-of-markup short hand (% = EOM)
+- Implement template functions (#variable)
+- Generate README docs directly from code
+- Explore flexibility from delegating explicit strings

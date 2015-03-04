@@ -81,36 +81,36 @@ npm test
 
 ## Documentation
 
-*identifier*
+**identifier**
 creates an HTML element with `identifier` as tag name
-```prim
+```jade
 div
 ```
 ```html
 <div></div>
 ```
 
-*identifier/*
+**identifier/**
 creates a self closing HTML element with `identifier` as tag name
-```prim
+```jade
 img/
 ```
 ```html
 <img />
 ```
 
-*identifier(attributes...)*
+**identifier(attributes...)**
 creates an HTML element with `identifier` as tag name and `attributes` as attributes
-```prim
+```jade
 div(ng-app='myApp')
 ```
 ```html
 <div ng-app='myapp'></div>
 ```
 
-*identifier { nodes... }*
+**identifier { nodes... }**
 creates an HTML element with `identifier` as tag name and `nodes` as child elements
-```prim
+```jade
 div {
 	span
 	hr/
@@ -120,27 +120,38 @@ div {
 <div><span><span><hr /></div>
 ```
 
-*identifier(attributes...)/*
+**identifier(attributes...)/**
 creates a self-closing HTML element with `identifier` as tag name and `attributes` as attributes
-```prim
+```jade
 input(type='text' placeholder='Username')/
 ```
 ```html
 <input type='text' placeholder='username' />
 ```
 
-*"string"*
+**"string"**
 creates a virtual HTML element with `string` as contents
-```prim
-"Hello"
+```jade
+div | Hello |
 ```
 ```html
-Hello
+<div>Hello</div>
 ```
+
+**identifier | content |**
+creates an HTML element with `identifier` as tag name and `content` as raw text
+```jade
+div {
+	span
+	hr/
+}
+```
+```html
+<div><span><span><hr /></div>
+```
+
 
 ## Todo
 
-- Implement metacharacter for raw strings
 - Implement end-of-markup short hand
-- Implement entity escapes
 - Plan future features

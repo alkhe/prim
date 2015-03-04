@@ -2,13 +2,17 @@ root
 	= _ ns:nodes _ { return ns; }
 
 boundednode
-	= n:name _ ps:properties _ '{' _ ns:nodes _ '}' { return '<' + n + ps + '>' + ns + '</' + n + '>'; }
-	/ n:name _ '{' _ ns:nodes _ '}' { return '<' + n + '>' + ns + '</' + n + '>'; }
+	= n:name _ ps:properties _ ch:children { return '<' + n + ps + '>' + ch + '</' + n + '>'; }
+	/ n:name _ ch:children { return '<' + n + '>' + ch + '</' + n + '>'; }
 	/ n:name _ ps:properties _ '/' { return '<' + n + ps + ' />'; }
 	/ n:name _ '/' { return '<' + n + ' />'; }
 	/ n:name _ ps:properties { return '<' + n + ps + '></' + n + '>'; }
-	/ "'" s:$([^']*) "'" { return s; }
-	/ '"' s:$([^"]*) '"' { return s; }
+	/ "'" s:singlequotechar* "'" { return s.join(''); }
+	/ '"' s:doublequotechar* '"' { return s.join(''); }
+
+children
+	= '{' _ ns:nodes _ '}' { return ns; }
+	/ '|' s:pipechar* '|' { return s.join('').trim(); }
 
 node
 	= n:name { return '<' + n + '></' + n + '>'; }
@@ -75,11 +79,51 @@ namechar
 	/ [\u0300-\u036F]
 	/ [\u203F-\u2040]
 
+unescape
+	= '\\'
+	/ '/'
+	/ 'b' { return '\b'; }
+	/ 'f' { return '\f'; }
+	/ 'n' { return '\n'; }
+	/ 'r' { return '\r'; }
+	/ 't' { return '\t'; }
+	/ 'u' digits:$(hexchar) {
+		return String.fromCharCode(parseInt(digits, 16));
+	}
+
+hexchar
+	= [0-9a-f]i
+
+singlequotechar
+	= [^'\\]
+	/ escape esc:(
+			"'"
+			/ unescape
+		) { return esc; }
+
+doublequotechar
+	= [^"\\]
+	/ escape esc:(
+			'"'
+			/ unescape
+		) { return esc; }
+
+pipechar
+	= [^\|\\]
+	/ escape esc:(
+			'|'
+			/ unescape
+		) { return esc; }
+	/ escape
+
+escape
+	= '\\'
+
 empty
-	= $('')
+	= ''
 
 line
-	= $('\n')
+	= '\n'
 
 _
 

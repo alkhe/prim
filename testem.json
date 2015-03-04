@@ -1,12 +1,11 @@
 {
 	"framework": "jasmine",
-	"before_tests": "gulp compile-dev",
+	"before_tests": "gulp clean compile-dev compile-test",
 	"src_files": [
 		"src/**/*.peg",
 		"spec/**/*.js"
 	],
 	"serve_files": [
-		"lib/**/*.js",
-		"spec/**/*.js"
+		"lib/**/*.js"
 	]
 }

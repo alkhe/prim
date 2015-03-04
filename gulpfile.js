@@ -1,23 +1,26 @@
 var gulp = require('gulp'),
 	peg = require('gulp-peg'),
 	uglify = require('gulp-uglify'),
-	rename = require('gulp-rename');
+	rename = require('gulp-rename'),
+	babel = require('gulp-babel'),
+	del = require('del');
 
-var match = './src/**/*.peg',
+var pegmatch = './src/**/*.peg',
+	specmatch = './spec/**/*.js'
 	clientdest = './lib/',
 	serverdest = './';
 
-gulp.task('compile', ['compile-npm', 'compile-dev', 'compile-pro']);
+gulp.task('compile', ['compile-npm', 'compile-dev', 'compile-pro', 'compile-test']);
 
 gulp.task('compile-dev', function() {
-	gulp.src(match).pipe(peg({
+	gulp.src(pegmatch).pipe(peg({
 			exportVar: 'prim'
 		}))
 		.pipe(gulp.dest(clientdest));
 });
 
 gulp.task('compile-pro', function() {
-	gulp.src(match).pipe(peg({
+	gulp.src(pegmatch).pipe(peg({
 			exportVar: 'prim'
 		}))
 		.pipe(uglify())
@@ -27,9 +30,18 @@ gulp.task('compile-pro', function() {
 		.pipe(gulp.dest(clientdest));
 });
 
+gulp.task('compile-test', function() {
+	gulp.src(specmatch).pipe(babel())
+		.pipe(gulp.dest(clientdest));
+});
+
 gulp.task('compile-npm', function() {
-	gulp.src(match).pipe(peg())
+	gulp.src(pegmatch).pipe(peg())
 		.pipe(gulp.dest(serverdest));
+});
+
+gulp.task('clean', function() {
+	del(clientdest + '*');
 });
 
 gulp.task('watch', function() {

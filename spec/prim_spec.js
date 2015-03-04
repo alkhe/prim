@@ -4,6 +4,31 @@
 
 describe('prim', function() {
 	describe('parse', function() {
+
+		it('parses raw pipe strings', function() {
+			expect(prim.parse(`
+				div |
+					Using Prim pipes with the pipe character: \\|
+				|
+			`)).toBe('<div>Using Prim pipes with the pipe character: |</div>');
+		});
+
+		it('parses strings with escape characters', function() {
+			expect(prim.parse(`"Hello
+			"`)).toBe('Hello\n\t\t\t');
+		});
+
+		it('parses nested tags with new lines', function() {
+			expect(prim.parse(`
+				html {
+					body {
+						div(class="test")
+						img/
+					}
+				}
+			`)).toBe('<html><body><div class="test"></div><img /></body></html>');
+		});
+
 		it('parses mixed strings and tags', function() {
 			expect(prim.parse('div "Hello" img/')).toBe('<div></div>Hello<img />');
 		});
@@ -54,8 +79,10 @@ describe('prim', function() {
 			expect(prim.parse('div()')).toBe('<div></div>');
 		});
 
-		it('parses newlines between braces', function() {
-			expect(prim.parse('html {\n\n}')).toBe('<html></html>');
+		it('pa	rses newlines between braces', function() {
+			expect(prim.parse(`html {
+
+			}`)).toBe('<html></html>');
 		});
 
 		it('parses empty nested tag', function() {

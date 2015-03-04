@@ -6,7 +6,7 @@ Natural and extensible interface markup for the web.
 
 Prim is a new templating language that implements only the most intuitive and natural concepts of interface structure, allowing for developers to efficiently create platform-agnostic user interfaces.
 
-It leaves out specific rules like `img tags are self-closing` to achieve maximum performance and transparency. The simple, unopinionated design of Prim allows for a healthy balance between recyclability and output certainty.
+Bearing a simple syntax and leaving out specific rules like `img tags are self-closing`, Prim achieves maximum performance and readability. The simple, unopinionated design of Prim allows for a healthy balance between recyclability and output transparency.
 
 Prim is great for creating web applications. The parser returns a plain HTML string that can be treated as a reusable atomic DOM node. It plays well with client-side MVC frameworks such as AngularJS and Backbone, and servers like Express (Node.js).
 
@@ -30,8 +30,8 @@ In your HTML, link to your Prim runtime:
 
 Now you can convert Prim to HTML:
 ```js
-prim.parse('div(class="article") { p { "Lorem ipsum dolor sit amet" } }');
-// "<div class="article"><p>Lorem ipsum dolor sit amet</p></div>"
+prim.parse('div(class="article") { p | Lorem ipsum dolor sit amet | }');
+// '<div class="article"><p>Lorem ipsum dolor sit amet</p></div>'
 ```
 
 You can also define a Prim template in your head:
@@ -40,10 +40,10 @@ You can also define a Prim template in your head:
 	div(class='container-fluid') {
 		br/
 		div(class='panel panel-default') {
-			div(class='panel-heading') { 'Prim' }
-			div(class='panel-body') { 'Natural, fat free, and extensible interface markup for the web.' }
+			div(class='panel-heading') | Prim |
+			div(class='panel-body') | Natural, fat free, and extensible interface markup for the web. |
 			div(class='panel-footer') {
-				a(href='https://github.com/edge/prim') { 'Get it now' }
+				a(href='https://github.com/edge/prim') | Get it now |
 			}
 		}
 	}
@@ -149,7 +149,7 @@ div | Hello |
 input(type='text' placeholder='Username')/
 ```
 ```html
-<input type='text' placeholder='username' />
+<input type='text' placeholder='Username' />
 ```
 
 **Mixed elements and strings**
@@ -165,7 +165,7 @@ div {
 
 ## Todo
 
-- Implement end-of-markup short hand (% = EOM)
-- Implement template functions (#variable)
+- Implement end-of-markup short hand `% = EOM`
+- Implement template functions `#variable`
 - Generate README docs directly from code
 - Explore flexibility from delegating explicit strings

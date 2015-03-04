@@ -1,12 +1,11 @@
 {
   "name": "primjs",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Natural and extensible interface markup for the web.",
   "main": "prim.js",
-  "dependencies": {
-    "del": "^1.1.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "del": "^1.1.1",
     "gulp": "^3.8.11",
     "gulp-babel": "^4.0.0",
     "gulp-peg": "^0.1.2",

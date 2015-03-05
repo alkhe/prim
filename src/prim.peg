@@ -7,7 +7,10 @@ boundednode
 	/ n:name _ ps:properties _ '/' { return '<' + n + ps + ' />'; }
 	/ n:name _ '/' { return '<' + n + ' />'; }
 	/ n:name _ ps:properties { return '<' + n + ps + '></' + n + '>'; }
-	/ "'" s:singlequotechar* "'" { return s.join(''); }
+	/ textnode
+
+textnode
+	= "'" s:singlequotechar* "'" { return s.join(''); }
 	/ '"' s:doublequotechar* '"' { return s.join(''); }
 
 children
@@ -40,20 +43,22 @@ attvalue
 	= "'" v:$((!"'" char)*) "'" { return "'" + v + "'"; }
 	/ '"' v:$((!'"' char)*) '"' { return '"' + v + '"'; }
 
-string
-	= $(char*)
-
 char
+	= [\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD]
+	/*
 	= [\u0009]
 	/ [\u000A]
 	/ [\u000D]
 	/ [\u0020-\uD7FF]
 	/ [\uE000-\uFFFD]
+	*/
 
 name
 	= $(namestart namechar*)
 
 namestart
+	= [:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]
+	/*
 	= ':'
 	/ [A-Z]
 	/ '_'
@@ -69,15 +74,18 @@ namestart
 	/ [\u3001-\uD7FF]
 	/ [\uF900-\uFDCF]
 	/ [\uFDF0-\uFFFD]
+	*/
 
 namechar
 	= namestart
+	/ [-\.0-9\u00B7\u0300-\u036F\u203F-\u2040]
+	/*
 	/ '-'
 	/ '.'
 	/ [0-9]
 	/ [\u00B7]
 	/ [\u0300-\u036F]
-	/ [\u203F-\u2040]
+	/ [\u203F-\u2040]*/
 
 unescape
 	= '\\'
@@ -117,13 +125,13 @@ pipechar
 	/ escape
 
 escape
-	= '\\'
+	= $('\\')
 
 empty
-	= ''
+	= $('')
 
 line
-	= '\n'
+	= $('\n')
 
 _
 

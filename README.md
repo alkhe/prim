@@ -124,6 +124,15 @@ div {
 <div><span><span><hr /></div>
 ```
 
+**#{ code }**
+creates a virtual HTML element with the return value of `code` as contents, using second parse argument as context
+```jade
+#{ Math.log(Math.E) }
+```
+```html
+1
+```
+
 **"string"**
 creates a virtual HTML element with `string` as contents
 ```jade
@@ -153,19 +162,23 @@ input(type='text' placeholder='Username')/
 ```
 
 **Mixed elements and strings**
+```js
+prim.parse(template, { user: 'My Username' });
+```
 ```jade
 div {
 	'Welcome back, '
-	div(id='name' class='username') | User |
+	div(id='name' class='username') { #{ user } }
+	button | Log Out |
 }
 ```
 ```html
-<div>Welcome back, <div id='name' class='username'>User</div></div>
+<div>Welcome back, <div id='name' class='username'>My Username</div><button>Log Out</button></div>
 ```
 
 ## Todo
 
 - Implement end-of-markup short hand `% = EOM`
-- Implement template functions `#variable`
+- Improve evaluation of member functions in specified context
 - Generate README docs directly from code
 - Explore flexibility from delegating explicit strings

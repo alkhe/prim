@@ -5,6 +5,26 @@
 describe('prim', function() {
 	describe('parse', function() {
 
+		it('parses and evaluates function literals in evalnodes', function() {
+			expect(prim.parse('#{ (function() { return 5; })() }')).toBe('5');
+		});
+
+		it('parses and evaluates functions in evalnodes', function() {
+			expect(prim.parse('#{ Math.log(Math.E) }')).toBe('1');
+		});
+
+		it('parses and evaluates double property accesses in evalnodes', function() {
+			expect(prim.parse('#{ prop1.prop2 }', { prop1: { prop2: 5 } })).toBe('5');
+		});
+
+		it('parses and evaluates expressions in evalnodes', function() {
+			expect(prim.parse('#{ prop * 10 + 5 }', { prop: 5 })).toBe('55');
+		});
+
+		it('parses and evaluates variables in evalnodes', function() {
+			expect(prim.parse('#{ prop }', { prop: 5 })).toBe('5');
+		});
+
 		it('parses raw pipe strings', function() {
 			expect(prim.parse(`
 				div |

@@ -1,3 +1,14 @@
+{
+	eval((function(obj) {
+		var s = '';
+		for (var prop in obj) {
+			s += 'var' + prop + '=' + JSON.stringify(obj) + ';';
+		}
+		return s;
+	})(options));
+
+}
+
 root
 	= _ ns:nodes _ { return ns; }
 
@@ -7,11 +18,15 @@ boundednode
 	/ n:name _ ps:properties _ '/' { return '<' + n + ps + ' />'; }
 	/ n:name _ '/' { return '<' + n + ' />'; }
 	/ n:name _ ps:properties { return '<' + n + ps + '></' + n + '>'; }
+	/ evalnode
 	/ textnode
 
 textnode
 	= "'" s:singlequotechar* "'" { return s.join(''); }
 	/ '"' s:doublequotechar* '"' { return s.join(''); }
+
+evalnode
+	= hash _ '{' code:codechar* '}' { with (options) { return eval(code.join('')); }}
 
 children
 	= '{' _ ns:nodes _ '}' { return ns; }
@@ -123,6 +138,13 @@ pipechar
 			/ unescape
 		) { return esc; }
 	/ escape
+
+codechar
+	= [^\{\}]
+	/ '{' c:codechar* '}' { return '{' + c.join('') + '}'; }
+
+hash
+	= $('#')
 
 escape
 	= $('\\')

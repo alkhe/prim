@@ -125,12 +125,25 @@ div {
 ```
 
 **#{ code }**
-creates a virtual HTML element with the return value of `code` as contents, using second parse argument as context
+creates a virtual HTML element with the return value of `code` as contents
 ```jade
 #{ Math.log(Math.E) }
 ```
 ```html
 1
+```
+
+**#{ code }**
+**object**
+creates a virtual HTML element with the return value of `code` as contents, using second `object` as context
+```js
+prim.parse(template, { user: 'Steve', id: '306' });
+```
+```jade
+#{ user } ':' #{ id }
+```
+```html
+Steve:306
 ```
 
 **"string"**
@@ -179,6 +192,7 @@ div {
 ## Todo
 
 - Implement end-of-markup short hand `% = EOM`
-- Improve evaluation of member functions in specified context
+- Consider Jison for parser
+- Consider browserify vm for context execution
 - Generate README docs directly from code
 - Explore flexibility from delegating explicit strings

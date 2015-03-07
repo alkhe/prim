@@ -1,2 +1,5 @@
 node_modules
 testem.log
+src/prim.jison
+src/prim.js
+src/test.prim

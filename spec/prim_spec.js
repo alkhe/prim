@@ -5,6 +5,18 @@
 describe('prim', function() {
 	describe('parse', function() {
 
+		it('retains state changes in context objects in evalnodes', function() {
+			expect(prim.parse('#{ (prop = 5) && 3 } #{ prop }', { prop: 4 })).toBe('35');
+		});
+
+		it('parses and evaluates context arrays in evalnodes', function() {
+			expect(prim.parse('#{ arr.join() }', { arr: [2, 3, 5] })).toBe('2,3,5');
+		});
+
+		it('parses and evaluates context function literals in evalnodes', function() {
+			expect(prim.parse('#{ fun() }', { fun: function() { return 5; } })).toBe('5');
+		});
+
 		it('parses and evaluates function literals in evalnodes', function() {
 			expect(prim.parse('#{ (function() { return 5; })() }')).toBe('5');
 		});

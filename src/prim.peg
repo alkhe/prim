@@ -59,7 +59,7 @@
 		return str;
 	};
 
-	eval(toSource(options));
+	eval(toSource(arguments[1]));
 
 }
 
@@ -80,7 +80,8 @@ textnode
 	/ '"' s:doublequotechar* '"' { return s.join(''); }
 
 evalnode
-	= hash _ '{' code:codechar* '}' { with (options) { return eval(code.join('')); }}
+	= hash _ '{' code:codechar* '}' { return eval(code.join('')); }
+	// with (options) { return eval(code.join('')); }
 
 children
 	= '{' _ ns:nodes _ '}' { return ns; }

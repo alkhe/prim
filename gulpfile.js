@@ -10,18 +10,22 @@ var pegmatch = './src/**/*.peg',
 	clientdest = './lib/',
 	serverdest = './';
 
+var plugin = require('./src/plugin');
+
 gulp.task('compile', ['compile-npm', 'compile-dev', 'compile-pro', 'compile-test']);
 
 gulp.task('compile-dev', function() {
 	gulp.src(pegmatch).pipe(peg({
-			exportVar: 'prim'
+			exportVar: 'prim',
+			plugins: [plugin]
 		}))
 		.pipe(gulp.dest(clientdest));
 });
 
 gulp.task('compile-pro', function() {
 	gulp.src(pegmatch).pipe(peg({
-			exportVar: 'prim'
+			exportVar: 'prim',
+			plugins: [plugin]
 		}))
 		.pipe(uglify())
 		.pipe(rename({
@@ -36,12 +40,15 @@ gulp.task('compile-test', function() {
 });
 
 gulp.task('compile-npm', function() {
-	gulp.src(pegmatch).pipe(peg())
+	gulp.src(pegmatch).pipe(peg({
+			plugins: [plugin]
+		}))
 		.pipe(gulp.dest(serverdest));
 });
 
 gulp.task('clean', function() {
 	del(clientdest + '*');
+	del(serverdest + 'prim.js');
 });
 
 gulp.task('watch', function() {

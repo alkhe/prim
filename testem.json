@@ -3,6 +3,7 @@
 	"before_tests": "gulp clean compile-dev compile-test",
 	"src_files": [
 		"src/**/*.peg",
+		"src/**/*.js",
 		"spec/**/*.js"
 	],
 	"serve_files": [

@@ -1,5 +1,5 @@
 {
-	var serialize = function(o) {
+	/*var serialize = function(o) {
 		var str = '';
 		switch (typeof o) {
 			case 'string':
@@ -59,7 +59,9 @@
 		return str;
 	};
 
-	eval(toSource(arguments[1]));
+	eval(toSource(arguments[1]));*/
+
+	var context = arguments[1] || {};
 
 }
 
@@ -80,7 +82,7 @@ textnode
 	/ '"' s:doublequotechar* '"' { return s.join(''); }
 
 evalnode
-	= hash _ '{' code:codechar* '}' { return eval(code.join('')); }
+	= hash _ '{' code:codechar* '}' { with (context) { return eval(code.join('')); } }
 	// with (options) { return eval(code.join('')); }
 
 children

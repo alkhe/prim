@@ -1,4 +1,4 @@
-const generator = 'jison';
+const generator = 'peg';
 
 var gulp = require('gulp'),
 	jison = require('gulp-jison'),
@@ -23,6 +23,7 @@ gulp.task('compile-dev', function() {
 	if (generator == 'jison') {
 		gulp.src(jisonmatch).pipe(jison({
 				moduleType: 'js',
+				type: 'lalr',
 				moduleName: 'prim'
 			}))
 			.pipe(gulp.dest(clientdest));
@@ -40,6 +41,7 @@ gulp.task('compile-pro', function() {
 	if (generator == 'jison') {
 		gulp.src(jisonmatch).pipe(jison({
 				moduleType: 'js',
+				type: 'lr0',
 				moduleName: 'prim'
 			}))
 			.pipe(uglify())
@@ -75,7 +77,8 @@ gulp.task('compile-test', function() {
 gulp.task('compile-npm', function() {
 	if (generator == 'jison') {
 		gulp.src(jisonmatch).pipe(jison({
-				moduleType: 'commonjs'
+				moduleType: 'commonjs',
+				parserType: 'lalr'
 			}))
 			.pipe(gulp.dest(serverdest));
 	}

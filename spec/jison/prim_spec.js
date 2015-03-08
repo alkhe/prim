@@ -39,9 +39,7 @@ describe('prim', function() {
 
 		it('parses raw pipe strings', function() {
 			expect(prim.parse(`
-				div |
-					Using Prim pipes with the pipe character: \\|
-				|
+				div |Using Prim pipes with the pipe character: \\||
 			`)).toBe('<div>Using Prim pipes with the pipe character: |</div>');
 		});
 

@@ -192,7 +192,6 @@ div {
 ## Todo
 
 - Implement end-of-markup short hand `% = EOM`
-- Consider Jison for parser
-- Consider browserify vm for context execution
+- Consider browserify vm for context execution instead of with
 - Generate README docs directly from code
 - Explore flexibility from delegating explicit strings

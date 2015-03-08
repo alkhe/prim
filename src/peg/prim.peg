@@ -85,7 +85,7 @@ evalnode
 
 children
 	= '{' _ ns:nodes _ '}' { return ns; }
-	/ '|' s:pipechar* '|' { return s.join('').trim(); }
+	/ '|' s:pipechar* '|' { return s.join(''); }
 
 node
 	= n:name { return '<' + n + '></' + n + '>'; }

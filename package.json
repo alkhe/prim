@@ -1,6 +1,6 @@
 {
   "name": "primjs",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Natural and extensible interface markup for the web.",
   "main": "prim.js",
   "dependencies": {},

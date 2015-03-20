@@ -14,7 +14,7 @@ Prim may be implemented in the future as an interface language for software beyo
 
 
 ## Table of Contents
-* [Installing](#installation)
+* [Installing](#installing)
 * [Browser](#browser)
 * [Server](#server)
 * [Documentation](#documentation)
@@ -22,7 +22,7 @@ Prim may be implemented in the future as an interface language for software beyo
 	* [Combinations](#combinations)
 	* [Multiplexing](#multiplexing)
 * [Testing](#testing)
-* [Todo](#todo)
+* [Todo](#todo-roadmap-to-1.0)
 
 
 ## Installing

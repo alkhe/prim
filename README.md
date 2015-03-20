@@ -22,7 +22,7 @@ Prim may be implemented in the future as an interface language for software beyo
 	* [Combinations](#combinations)
 	* [Multiplexing](#multiplexing)
 * [Testing](#testing)
-* [Todo](#todo-roadmap-to-1.0)
+* [Todo/Roadmap to v1.0](#todo-roadmap-to-v1.0)
 
 
 ## Installing

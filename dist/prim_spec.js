@@ -1,5 +1,13 @@
 "use strict";
 
+var elaborate = function elaborate(fn) {
+	try {
+		fn();
+	} catch (e) {
+		console.log(JSON.stringify(e, null, 4));
+	}
+};
+
 describe("prim", function () {
 	describe("parse", function () {
 
@@ -111,7 +119,7 @@ describe("prim", function () {
 			expect(prim.parse("div()")).toBe("<div></div>");
 		});
 
-		it("pa\trses newlines between braces", function () {
+		it("parses newlines between braces", function () {
 			expect(prim.parse("html {\n\n\t\t\t}")).toBe("<html></html>");
 		});
 
@@ -157,4 +165,3 @@ describe("prim", function () {
 	});
 });
 /* jshint globalstrict: true */
-/* global Scope: false */

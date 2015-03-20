@@ -1,6 +1,15 @@
 /* jshint globalstrict: true */
-/* global Scope: false */
+
 'use strict';
+
+var elaborate = function(fn) {
+	try {
+		fn();
+	}
+	catch (e) {
+		console.log(JSON.stringify(e, null, 4));
+	}
+};
 
 describe('prim', function() {
 	describe('parse', function() {
@@ -121,7 +130,7 @@ describe('prim', function() {
 			expect(prim.parse('div()')).toBe('<div></div>');
 		});
 
-		it('pa	rses newlines between braces', function() {
+		it('parses newlines between braces', function() {
 			expect(prim.parse(`html {
 
 			}`)).toBe('<html></html>');

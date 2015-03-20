@@ -4,7 +4,7 @@
 
 Natural and extensible interface markup for the web.
 
-Prim is a new templating language that implements only the most intuitive and natural concepts of interface structure, allowing for developers to efficiently create platform-agnostic user interfaces.
+Prim is a new and extremely fast templating language that implements only the most intuitive and natural concepts of interface structure, allowing for developers to efficiently create platform-agnostic user interfaces.
 
 Bearing a simple syntax and leaving out specific rules like `img tags are self-closing`, Prim achieves maximum performance and readability. The simple, unopinionated design of Prim allows for a healthy balance between recyclability and output transparency.
 
@@ -30,7 +30,7 @@ In your HTML, link to your Prim runtime:
 
 Now you can convert Prim to HTML:
 ```js
-prim.parse('div(class="article") { p | Lorem ipsum dolor sit amet | }');
+prim.parse('div(class="article") { p |Lorem ipsum dolor sit amet| }');
 // '<div class="article"><p>Lorem ipsum dolor sit amet</p></div>'
 ```
 
@@ -40,10 +40,10 @@ You can also define a Prim template in your head:
 	div(class='container-fluid') {
 		br/
 		div(class='panel panel-default') {
-			div(class='panel-heading') | Prim |
-			div(class='panel-body') | Natural, fat free, and extensible interface markup for the web. |
+			div(class='panel-heading') |Prim|
+			div(class='panel-body') |Natural, fat free, and extensible interface markup for the web.|
 			div(class='panel-footer') {
-				a(href='https://github.com/edge/prim') | Get it now |
+				a(href='https://github.com/edge/prim') |Get it now|
 			}
 		}
 	}
@@ -67,7 +67,7 @@ npm install --save primjs
 ```js
 var prim = require('primjs');
 
-prim.parse('div(class="article") { p | Lorem ipsum dolor sit amet | }');
+prim.parse('div(class="article") { p |Lorem ipsum dolor sit amet| }');
 // '<div class="article"><p>Lorem ipsum dolor sit amet</p></div>'
 ```
 
@@ -158,7 +158,7 @@ Hello
 **identifier | content |**
 creates an HTML element with `identifier` as tag name and `content` as raw text
 ```jade
-div | Hello |
+div |Hello|
 ```
 ```html
 <div>Hello</div>
@@ -176,21 +176,22 @@ input(type='text' placeholder='Username')/
 
 **Mixed elements and strings**
 ```js
-prim.parse(template, { user: 'My Username' });
+prim.parse(template, { user: 'Username' });
 ```
 ```jade
 div {
 	'Welcome back, '
 	div(id='name' class='username') { #{ user } }
-	button | Log Out |
+	button |Log Out|
 }
 ```
 ```html
-<div>Welcome back, <div id='name' class='username'>My Username</div><button>Log Out</button></div>
+<div>Welcome back, <div id='name' class='username'>Username</div><button>Log Out</button></div>
 ```
 
 ## Todo
 
-- Implement end-of-markup short hand `% = EOM`
+- Embed templates in code
+- Compiled templates
+- Document EOM syntax
 - Generate README docs directly from code
-- Explore flexibility from delegating explicit strings

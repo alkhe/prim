@@ -83,7 +83,7 @@ regchar											{startchar} | [-\.0-9\u00B7\u0300-\u036F\u203F-\u2040]
 /lex
 
 %start expressions
-%parse-param context
+%parse-param _undefined vm
 %%
 
 
@@ -106,19 +106,7 @@ node
 		? '<' + $1.name + $1.attributes + ' />'
 		: '<' + $1.name + $1.attributes + '>' + $1.children + '</' + $1.name + '>'
 		);}%
-	| code {
-				$1 = $1.trim();
-				if ($1.length) {
-					if (context) {
-						with (context) {
-							$$ = eval($1);
-						}
-					}
-					else {
-						$$ = eval($1);
-					}
-				}
-			}
+	| code { $$ = vm($1); }
 	| rawstring
 	;
 

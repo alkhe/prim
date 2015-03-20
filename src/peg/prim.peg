@@ -1,21 +1,5 @@
 {
-	var VM = function(o) {
-		eval((function() {
-			var src = '';
-			for (var prop in o) {
-				if (o.hasOwnProperty(prop)) {
-					src += 'var ' + prop + '=o[\'' + prop + '\'];';
-				}
-			}
-			return src;
-		})());
-		return function() {
-			return eval(arguments[0]);
-		}
-	}
-
-	var vm = new VM(arguments[1] || {});
-
+	var vm = arguments[2];
 }
 
 root
@@ -26,14 +10,55 @@ top
 				/ '%'? { return ''; }) { return ns + t; }
 
 node
-	= n:name _ ps:properties _ ch:children { return '<' + n + ps + '>' + ch + '</' + n + '>'; }
+	/*= n:name _ ps:properties _ ch:children { return '<' + n + ps + '>' + ch + '</' + n + '>'; }
 	/ n:name _ ch:children { return '<' + n + '>' + ch + '</' + n + '>'; }
 	/ n:name _ ps:properties _ '/' { return '<' + n + ps + ' />'; }
 	/ n:name _ '/' { return '<' + n + ' />'; }
 	/ n:name _ ps:properties { return '<' + n + ps + '></' + n + '>'; }
-	/ n:name { return '<' + n + '></' + n + '>'; }
+	/ n:name { return '<' + n + '></' + n + '>'; }*/
+	= nodebuilder
 	/ evalnode
 	/ textnode
+
+nodebuilder
+	= n:name _ b:buildfunctions {
+		var item = {
+			name: n,
+			children: '',
+			attributes: '',
+			selfclosing: false
+		};
+
+		for (var i = 0; i < b.length; i++) {
+			switch (b[i][0]) {
+				case 0:
+					item.children += b[i][1];
+					break;
+				case 1:
+					item.attributes += b[i][1];
+					break;
+				case 2:
+					item.selfclosing = true;
+					break;
+				default:
+					break;
+			}
+		}
+
+		return (item.selfclosing
+			? '<' + item.name + item.attributes + ' />'
+			: '<' + item.name + item.attributes + '>' + item.children + '</' + item.name + '>'
+		);
+	}
+
+buildfunctions
+	= b:buildfunction _ bs:buildfunctions { return [b].concat(bs); }
+	/ empty { return []; }
+
+buildfunction
+	= ch:children { return [0, ch]; }
+	/ ps:properties { return [1, ps]; }
+	/ '/' { return [2]; }
 
 textnode
 	= "'" s:singlequotechar* "'" { return s.join(''); }
@@ -57,7 +82,7 @@ properties
 	/ '(' _ ')' { return ''; }
 
 attributes
-	= a:attribute __ as:attributes { return a + ' ' + as; }
+	= a:attribute _ as:attributes { return a + ' ' + as; }
 	/ attribute
 
 attribute
@@ -168,5 +193,5 @@ line
 _
 
 	= $([ \t\r\n\f]*)
-__
-	= $([ \t\r\n\f]+)
+/*__
+	= $([ \t\r\n\f]+)*/

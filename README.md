@@ -12,14 +12,27 @@ Prim is great for creating web applications. The parser returns a plain HTML str
 
 Prim may be implemented in the future as an interface language for software beyond web applications.
 
-## Install
+
+## Table of Contents
+* [Installing](#installation)
+* [Browser](#browser)
+* [Server](#server)
+* [Documentation](#documentation)
+	* [Basic](#basic)
+	* [Combinations](#combinations)
+	* [Multiplexing](#multiplexing)
+* [Testing](#testing)
+* [Todo](#todo)
+
+
+## Installing
 
 To use as a module on your server:
 ```sh
 npm install --save primjs
 ```
 
-To use the client runtime, [download the latest build from git HEAD](https://github.com/edge/prim/tree/master/lib).
+To use the client runtime, [download the latest build from git HEAD](https://github.com/edge/prim/tree/master/dist).
 
 ## Browser
 
@@ -69,14 +82,6 @@ var prim = require('primjs');
 
 prim.parse('div(class="article") { p |Lorem ipsum dolor sit amet| }');
 // '<div class="article"><p>Lorem ipsum dolor sit amet</p></div>'
-```
-
-
-## Test
-
-```sh
-npm install -g testem
-npm test
 ```
 
 ## Documentation
@@ -164,7 +169,16 @@ div |Hello|
 <div>Hello</div>
 ```
 
-### Multiplex
+**End of Markup (%)**
+short circuits template and automatically closes all levels of nesting
+```jade
+div { div { div { 'Hello'%
+```
+```html
+<div><div><div>Hello</div></div></div>
+```
+
+### Combinations
 
 **Self-closing element with attributes**
 ```jade
@@ -189,9 +203,45 @@ div {
 <div>Welcome back, <div id='name' class='username'>Username</div><button>Log Out</button></div>
 ```
 
-## Todo
+### Multiplexing
 
-- Embed templates in code
+**Nodebuilding**
+
+Children, property, and attribute segments can be concatenated, allowing for more templating flexibility.
+
+```jade
+div (attr='someattr' ref='someref') { div div } (data='somedata') |Text| { span }
+```
+```html
+<div attr='someattr' ref='someref' data='somedata'><div></div><div></div>Text<span></span></div>
+```
+
+**EOM**
+
+Because the EOM character resets the parse tree to the first node to the beginning of the current parse stream, it makes it easy to concatenate templates.
+
+```jade
+div { div { div { 'Hello'%span { span { span { 'Hello'%
+```
+```html
+<div><div><div>Hello</div></div></div><span><span><span>Hello</span></span></span>
+```
+
+## Testing
+
+```sh
+npm install -g testem
+npm test
+```
+
+## Todo/Roadmap to v1.0
+
+- Embed templates in code (allowing for conditionals and looping)
 - Compiled templates
-- Document EOM syntax
 - Generate README docs directly from code
+- Create Gulp plugin
+- Create React plugin
+- Add badges
+- Catch Jison up to PEG
+- Write Atom/Sublime syntax package
+- Implement "prim strict mode"

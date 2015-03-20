@@ -19,14 +19,19 @@
 }
 
 root
-	= _ ns:nodes _ { return ns; }
+	= _ t:top _ { return t; }
 
-boundednode
+top
+	= ns:nodes _ t:('%' _ t:top? { return t; }
+				/ '%'? { return ''; }) { return ns + t; }
+
+node
 	= n:name _ ps:properties _ ch:children { return '<' + n + ps + '>' + ch + '</' + n + '>'; }
 	/ n:name _ ch:children { return '<' + n + '>' + ch + '</' + n + '>'; }
 	/ n:name _ ps:properties _ '/' { return '<' + n + ps + ' />'; }
 	/ n:name _ '/' { return '<' + n + ' />'; }
 	/ n:name _ ps:properties { return '<' + n + ps + '></' + n + '>'; }
+	/ n:name { return '<' + n + '></' + n + '>'; }
 	/ evalnode
 	/ textnode
 
@@ -35,21 +40,16 @@ textnode
 	/ '"' s:doublequotechar* '"' { return s.join(''); }
 
 evalnode
-	= hash _ '{' code:codechar* '}' { return vm(code.join('')); }
+	= hash _ '{' code:codechar* ('}' / &'%') { return vm(code.join('')); }
 	// with (options) { return eval(code.join('')); }
 
 children
-	= '{' _ ns:nodes _ '}' { return ns; }
-	/ '|' s:pipechar* '|' { return s.join(''); }
-
-node
-	= n:name { return '<' + n + '></' + n + '>'; }
+	= '{' _ ns:nodes _ ('}' / &'%') { return ns; }
+	/ '|' s:pipechar* ('|' / &'%') { return s.join(''); }
 
 nodes
-	= b:boundednode _ ns:nodes { return b + ns; }
-	/ n:node __ ns:nodes { return n + ns; }
-	/ boundednode
-	/ node
+	= n:node ns:(_ ns:nodes { return ns; }
+				/ empty { return ''; }) { return n + ns; }
 	/ empty
 
 properties

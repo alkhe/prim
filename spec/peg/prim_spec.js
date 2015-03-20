@@ -5,6 +5,18 @@
 describe('prim', function() {
 	describe('parse', function() {
 
+		it('short circuits on EOM character and recurses', function() {
+			expect(prim.parse('div { span { div { \'Hello\'%div span { \'Hello\'%')).toBe('<div><span><div>Hello</div></span></div><div></div><span>Hello</span>');
+		});
+
+		it('short circuits on EOM character and continues', function() {
+			expect(prim.parse('div { span { div { \'Hello\'%div span')).toBe('<div><span><div>Hello</div></span></div><div></div><span></span>');
+		});
+
+		it('short circuits on EOM character', function() {
+			expect(prim.parse('div { span { div { \'Hello\'%')).toBe('<div><span><div>Hello</div></span></div>');
+		});
+
 		it('retains state changes in context objects in evalnodes', function() {
 			expect(prim.parse('#{ (prop = 5) && 3 } #{ prop }', { prop: 4 })).toBe('35');
 		});

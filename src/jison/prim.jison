@@ -83,13 +83,12 @@ regchar											{startchar} | [-\.0-9\u00B7\u0300-\u036F\u203F-\u2040]
 /lex
 
 %start expressions
-%parse-param _undefined vm
+%parse-param __undef vm
 %%
 
 
 expressions
-	: root EOF
-		{ return $1; }
+	: root EOF { return $1; }
 	;
 
 root
@@ -97,21 +96,18 @@ root
 	;
 
 nodes
-	: nodes node { $$ = $1 + $2; }
-	| { $$ = ''; }
+	: nodes node -> $1 + $2
+	| -> ''
 	;
 
 node
-	: nodebuilder %{ $$ = ($1.selfclosing
-		? '<' + $1.name + $1.attributes + ' />'
-		: '<' + $1.name + $1.attributes + '>' + $1.children + '</' + $1.name + '>'
-		);}%
-	| code { $$ = vm($1); }
+	: nodebuilder -> ($1.selfclosing ? '<' + $1.name + $1.attributes + ' />' : '<' + $1.name + $1.attributes + '>' + $1.children + '</' + $1.name + '>')
+	| code -> vm($1)
 	| rawstring
 	;
 
 nodebuilder
-	: nodebuilder lb nodes rb { $$ = $1; $$.children += $3; }
+	: nodebuilder lb nodes rb { console.log(JSON.stringify(@3)); $$ = $1; $$.children += $3; }
 	| nodebuilder lp attributes rp { $$ = $1; $$.attributes += $3; }
 	| nodebuilder raw { $$ = $1; $$.children += $2; }
 	| nodebuilder solid { $$ = $1; $$.selfclosing = true; }
@@ -119,12 +115,12 @@ nodebuilder
 	;
 
 attributes
-	: attributes attribute { $$ = $1 + ' ' + $2; }
-	| { $$ = ''; }
+	: attributes attribute -> $1 + ' ' + $2
+	| -> ''
 	;
 
 attribute
-	: name eq string { $$ = $1 + $2 + $3; }
+	: name eq string -> $1 + $2 + $3
 	| name
 	;
 
@@ -134,5 +130,5 @@ string
 	;
 
 rawstring
-	: string { $$ = $1.substring(1, $1.length - 1); }
+	: string -> $1.substring(1, $1.length - 1)
 	;
